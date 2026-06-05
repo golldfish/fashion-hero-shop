@@ -57,7 +57,7 @@ function PromotedCard({ product }: { product: PromotedProduct }) {
   const hasImage = imageSrc.startsWith("/images/");
 
   return (
-    <div className="group">
+    <Link href={`/seller-products/${product.slug}`} className="group block">
       <div className="relative aspect-square overflow-hidden bg-gray-50 mb-3">
         <span className="absolute top-2 left-2 z-10 text-[9px] font-bold uppercase tracking-wider bg-[var(--color-charcoal)] text-white px-2 py-0.5 rounded-sm">
           Promowany
@@ -77,7 +77,7 @@ function PromotedCard({ product }: { product: PromotedProduct }) {
         )}
       </div>
 
-      <h3 className="text-[12px] font-medium uppercase tracking-[0.5px] mb-0.5 leading-tight">
+      <h3 className="text-[12px] font-medium uppercase tracking-[0.5px] mb-0.5 leading-tight group-hover:underline">
         {product.name}
       </h3>
       <p className="text-[11px] text-[var(--color-warm-gray)] mb-1">
@@ -85,7 +85,7 @@ function PromotedCard({ product }: { product: PromotedProduct }) {
         <span className="text-[var(--color-charcoal)]/60">{product.sellerName}</span>
       </p>
       <p className="text-[14px] font-medium">{product.price} zł</p>
-    </div>
+    </Link>
   );
 }
 

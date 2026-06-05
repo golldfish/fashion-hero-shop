@@ -38,6 +38,8 @@ model Product {
   price       Float
   category    String // "shoes" | "heels" | "tops" | "dresses"
   images      String // JSON array of image URLs
+  sizes       String @default("[]") // JSON array of sizes
+  colors      String @default("[]") // JSON array of {name, hex}
 
   seller   Seller @relation(fields: [sellerId], references: [id])
   sellerId String

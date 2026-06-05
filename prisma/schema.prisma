@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Seller {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  returnRate  Float    // 0.0 - 1.0 (np. 0.03 = 3%)
+  createdAt   DateTime @default(now())
+
+  account          SellerAccount?
+  products         Product[]
+  promotedProducts PromotedProduct[]
+  salesRecords     SalesRecord[]
+}
+
+model SellerAccount {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String @unique
+}
+
+model Product {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  description String
+  price       Float
+  category    String // "shoes" | "heels" | "tops" | "dresses"
+  images      String // JSON array of image URLs
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String
+
+  promotions PromotedProduct[]
+
+  createdAt DateTime @default(now())
+}
+
+model PromotedProduct {
+  id        String   @id @default(cuid())
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String
+
+  @@unique([productId, sellerId])
+}
+
+model SalesRecord {
+  id         String   @id @default(cuid())
+  date       DateTime // dzień sprzedaży
+  unitsSold  Int      // liczba sprzedanych sztuk
+  revenue    Float    // przychód w zł
+  returns    Int      // liczba zwrotów tego dnia
+
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId String
+}

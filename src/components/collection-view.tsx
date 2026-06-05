@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product-card";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
 import type { Product, ShoeType, ShoeMaterial } from "@/types";
 import { getSeller } from "@/data/sellers";
+import { PromotedProductsStrip } from "@/components/promoted-products-strip";
 
 type SortOption = "featured" | "price-asc" | "price-desc" | "newest";
 
@@ -210,6 +211,9 @@ export function CollectionView({ products, collectionName, initialSellerSlug }: 
               )}
             </div>
           </div>
+
+          {/* Promoted products — DB-backed, from seller dashboard */}
+          <PromotedProductsStrip />
 
           {/* Seller header strip */}
           {sellerSlugs.length === 1 && (() => {
